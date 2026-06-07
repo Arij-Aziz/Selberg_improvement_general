@@ -6,6 +6,8 @@ conditions, then additive patterns in the ν-weighted measure carry over to the
 target set.
 
 This is modeled on the Green–Tao transference framework.
+This file provides abstract scaffolding used by AdditiveEnergyLower.lean. No concrete 
+instance of StrongPseudorandomMajorant for multiPrimeMajorant is constructed in this project.
 
 Status: AssumedForProgram (abstract framework and basic implications)
 -/
