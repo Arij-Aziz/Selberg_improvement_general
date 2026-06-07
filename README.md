@@ -1,3 +1,4 @@
+![Build](https://github.com/Arij-Aziz/Selberg_improvement_general/actions/workflows/build.yml/badge.svg)
 # Selberg Majorant: Multi-Prime Extension — A Lean 4 Formalization
 
 Machine-verified proofs extending the single-prime Selberg majorant
