@@ -11,7 +11,7 @@ The lower bound is sharp: it combines the restriction lower bound
   mass² · ‖ν‖₂² ≥ |S|⁴ / N
 with mass = N · Q(λ) to extract a bound on ‖ν‖₂² alone.
 
-No paper in the literature states this sandwich for sieve-constrained majorants.
+No paper in the literature states this sandwich for sieve-constrained majorants to the authors' knowledge.
 
 Status: ProvedInProject
 -/
