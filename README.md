@@ -372,8 +372,3 @@ RequestProject/
 Future/                                     ← Scaffolding; not part of proof chain
 formalization.yml                           ← Machine-readable project metadata
 ```
-
-
-***
-
-This matches Step 1's format exactly: same section order, same tone, no overstatement, sorry disclosed precisely, novelty scoped with "to the authors' knowledge," file map with arrows. Say the word and I'll push it.
