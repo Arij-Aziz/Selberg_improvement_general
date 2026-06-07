@@ -32,7 +32,7 @@ the correct weight formula and its verification.
 
 -- Source: Iwaniec-Kowalski eq. (6.63)-(6.74); Ford §4 pages 43-45; JTNB_2006 eq. (8.2)
 
-Status: ProvedInProject (definitions and helper lemmas)
+Status: PartiallyProved: definitions and helpers proved; optimalWeight_quadForm_eq has sorry
 -/
 import Mathlib
 import RequestProject.Core.MultiPrime.L2Identity
