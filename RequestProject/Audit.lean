@@ -21,6 +21,7 @@ import RequestProject.Core.MultiPrime.SelbergCorrelation
 import RequestProject.Core.MultiPrime.MoebiusWeights
 import RequestProject.Core.MultiPrime.SelbergWeightCorrelation
 import RequestProject.Core.MultiPrime.SelbergUpperBound
+import RequestProject.Core.MultiPrime.RemainderBound
 
 -- ── Theorem 1: Mass and L² improvement ──────────────────────────────────────
 #print axioms selbergComparison_massImprovement
@@ -106,3 +107,11 @@ import RequestProject.Core.MultiPrime.SelbergUpperBound
 #print axioms selbergWeight_correlation_coprime_bound
 #print axioms selbergWeight_autocorrelation_eq
 #print axioms coprimePairsQuadForm_le_multiPrimeQuadForm
+
+-- ── Remainder bound completion ───────────────────────────────────────────────
+#print axioms selbergNu_eq_sieveWeight_sq
+#print axioms finRange_Ad_lcm_card
+#print axioms quadraticMajorantSum_eq_mainTerm_plus_errorTerm
+#print axioms double_error_le_moebiusRemainderBound
+#print axioms siftedCount_le_quadraticMajorantSum
+#print axioms selberg_upper_bound_complete
