@@ -71,6 +71,8 @@ import RequestProject.Core.MultiPrime.SelbergUpperBound
 #print axioms correlation_sum_approx_N
 #print axioms mass_approx_N
 #print axioms additiveEnergy_eq_sum_correlationSq
+
+-- ── Extension: Abstract pseudorandom bound (not instantiated for multiPrimeMajorant) ───────────
 #print axioms correlation_additive_energy_lower
 
 -- ── Extension 3: Quadratic Form Perturbation ────────────────────────────────
