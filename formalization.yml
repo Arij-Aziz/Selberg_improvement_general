@@ -2,7 +2,7 @@
 version: "v0.3"
 
 project:
-  name: "SelbergImprovementGeneral"
+  name: "SelbergMajorantMultiPrime"
   authors:
     - "Arij Aziz"
     id: "https://github.com/Arij-Aziz/Selberg_improvement_general"
@@ -10,166 +10,46 @@ project:
 
 status:
   scope: >
-    Multi-prime extension of the single-prime Selberg majorant results from
-    Step 1. (1) Multi-prime L² identity: Σ_x ν(x) = N·Q(λ) for the
-    multi-prime Selberg majorant on Fin(P·m). (2) FourierRatio: mass equals
-    N·Q(λ), quadratic form lower bound, and restriction lower bound
-    mass²·‖ν‖₂² ≥ |S|⁴/N. (3) Möbius weights: optimality Q(μ_P) = 1/V,
-    and Q(λ) ≥ φ(P)/P. (4) Selberg upper bound |S| ≤ N/V + remainder and
-    sharp L² bound ‖ν‖₂² ≥ |S|⁴·V²/N³ at Möbius weights. (5) Sharp
-    mass–energy tradeoff ‖ν‖₂² ≥ |S|⁴/(N³·Q²). (6) Coprime-shift
-    correlation bound Σ_x w(x)·w(x+h) ≤ N·Q(λ). (7) Additive energy lower
-    bounds including correlation-enhanced E(ν) ≥ N³·(1−2ε−4δ). (8) Sharp
-    Fourier ratio lower bound: existence of ξ≠0 with large |ν̂(ξ)|². (9)
-    Quadratic form perturbation |Q(λ)−Q(μ)| ≤ 2C·Σ δ_d/lcm. Does NOT cover
-    asymptotic results, the full Iwaniec–Kowalski sieve main term, or
-    extremality beyond the Möbius weight case.
+    Six independent results about the multi-prime Selberg majorant
+    ν(x) = (Σ_{d ∈ sqfDivisors(P), d | gcd(x,P)} λ_d)² on Fin(P·m),
+    for arbitrary squarefree P = p₁·····pₖ and arbitrary Selberg weights λ.
+    (1) Central L² identity: Σ_x ν(x) = (P·m)·Q(λ) for any λ, proved from
+    counting. (2) Möbius weights minimize Q(λ); Q(μ_P) = φ(P)/P = 1/V(1/·,P,P).
+    (3) Sharp mass–energy tradeoff: mass = N/V, ‖ν‖₂² ≥ |S|⁴·V²/N³ at Möbius
+    weights; general form conditional on one deferred sorry.
+    (4) Coprime-shift correlation identity for the unsquared weight, proved via
+    CRT. (5) V-function kinetic stability under prime-level perturbation.
+    (6) Quadratic form perturbation bound. Also includes: sharp Fourier ratio
+    lower bound; correlation-enhanced additive energy lower bound for
+    pseudorandom majorants; complete Selberg upper bound with general remainder;
+    and a machine-verified disproof of the blueprint correlation bound.
+    Does NOT cover the full Selberg sieve with arbitrary level D and general g
+    (one sorry deferred), asymptotic results, or optimality in a broader
+    function space. The Future/ directory is scaffolding only.
   sorry_count: 1
   sorry_in_definitions: 0
+  sorry_locations:
+    - declaration: optimalWeight_quadForm_eq
+      file: RequestProject/Core/MultiPrime/OptimalWeights.lean
+      reason: >
+        Deferred Möbius inversion argument on the squarefree divisor lattice.
+        Mathematically standard: Iwaniec–Kowalski eq. (6.70), Ford Theorem 4.1
+        p. 44, JTNB_2006 eq. (8.2). Not a mathematical gap. The Möbius-weight
+        case is fully proved via optimalWeight_quadForm_eq_moebius.
   axioms:
     - propext
     - Classical.choice
     - Quot.sound
   main_results:
 
-    # ── Step 1 carry-overs (proved in prior project, re-verified here) ────────
-
-    - declaration: selbergComparison_massImprovement
-      file: RequestProject/Core/SelbergComparison.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies:
-        - statement: "Selberg sieve mass bound: mass(ν) < N for the single-prime majorant"
-          source: "Iwaniec–Kowalski, Analytic Number Theory, Ch. 6"
-
-    - declaration: sieveMajorant_l2_improvement
-      file: RequestProject/Core/Weights/FourierConnection.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selbergComparison_dual_improvement
-      file: RequestProject/Core/Weights/FourierConnection.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: sieveMajorant_l2NormSq_eq_selbergForm
-      file: RequestProject/Core/Weights/FourierConnection.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: restriction_lower_bound
-      file: RequestProject/Core/RestrictionLowerBound.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies:
-        - statement: "Cauchy–Schwarz inequality for finite sums"
-          source: "Mathlib: Finset.inner_mul_le_norm_mul_iff"
-
-    - declaration: sieve_additive_energy_lower
-      file: RequestProject/Core/RestrictionLowerBound.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: restriction_lower_bound_zero_mode
-      file: RequestProject/Core/RestrictionLowerBound.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies:
-        - statement: "Parseval's identity for finite DFT"
-          source: "Mathlib: MeasureTheory.inner_eq_sum"
-
-    - declaration: siftedSet_card_le_quadraticSum
-      file: RequestProject/Core/Weights/UpperBound.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies:
-        - statement: "Selberg upper bound |S(A,P)| ≤ Q_A(λ)"
-          source: "Iwaniec–Kowalski, Analytic Number Theory, Ch. 6, eq. (6.5)"
-
-    - declaration: weighted_remainder_bound
-      file: RequestProject/Core/Weights/UpperBound.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: perturbation_propagates
-      file: RequestProject/Core/KineticPropagation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: eulerProduct_stability
-      file: RequestProject/Core/KineticPropagation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: sieveH_stable
-      file: RequestProject/Core/KineticPropagation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selberg_concrete_restriction_bound
-      file: RequestProject/Core/Weights/FourierConnection.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selberg_additive_energy_explicit
-      file: RequestProject/Core/SelbergRestriction.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selberg_mass_energy_interval
-      file: RequestProject/Core/SelbergRestriction.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: Nat.Squarefree.lcm
-      file: RequestProject/Core/Weights/QuadFormStability.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: inv_diff_bound
-      file: RequestProject/Core/Weights/QuadFormStability.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: quadForm_term_diff
-      file: RequestProject/Core/Weights/QuadFormStability.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: quadForm_term_bound
-      file: RequestProject/Core/Weights/QuadFormStability.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: quadForm_kinetic_stability
-      file: RequestProject/Core/Weights/QuadFormStability.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    # ── Multi-prime extension (new in this project) ───────────────────────────
+    # ── §1. Multi-prime setup ─────────────────────────────────────────────
 
     - declaration: selbergNu_dominates
       file: RequestProject/Core/MultiPrime/Setup.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies:
-        - statement: "Multi-prime Selberg majorant dominates sieve indicator"
+        - statement: "Selberg majorant dominates the indicator function when λ₁ = 1"
           source: "Iwaniec–Kowalski, Analytic Number Theory, Ch. 6"
 
     - declaration: card_joint_multiples_of_lcm
@@ -178,13 +58,15 @@ status:
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies: []
 
+    # ── §2. Central Identity ──────────────────────────────────────────────
+
     - declaration: l2NormSq_multiPrime_eq_quadForm
       file: RequestProject/Core/MultiPrime/L2Identity.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies:
-        - statement: "Multi-prime L² identity Σ ν(x) = N·Q(λ)"
-          source: "Iwaniec–Kowalski, Analytic Number Theory, eq. (6.70)"
+      literature_dependencies: []
+
+    # ── §3. FourierRatio ──────────────────────────────────────────────────
 
     - declaration: multiPrime_mass_eq_quadForm
       file: RequestProject/Core/MultiPrime/FourierRatio.lean
@@ -202,111 +84,11 @@ status:
       file: RequestProject/Core/MultiPrime/FourierRatio.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selberg_l2_lower_bound
-      file: RequestProject/Core/MassEnergyTradeoff/SharpBounds.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: correlationSum_total_eq_sq
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: sum_sq_ge_sq_div
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: correlation_sum_approx_N
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: mass_approx_N
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: additiveEnergy_eq_sum_correlationSq
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: correlation_additive_energy_lower
-      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: multiPrimeQuadForm_perturbation
-      file: RequestProject/Core/KineticStability/QuadFormPerturbation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: sieveMass_eq_quadForm
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: real_l2NormSq_eq
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: parseval_real
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies:
-        - statement: "Parseval's identity for finite DFT"
-          source: "Mathlib: MeasureTheory.inner_eq_sum"
+        - statement: "Cauchy–Schwarz restriction lower bound for sieve majorants"
+          source: "Mathlib: Finset.inner_mul_le_norm_mul_iff"
 
-    - declaration: fourier_zero_norm_sq
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: nonzero_fourier_sum_eq
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: exists_ge_of_sum_ge
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: sharp_fourier_ratio_lower_bound
-      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: correlationBound_nonneg
-      file: RequestProject/Core/MultiPrime/SelbergCorrelation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
-
-    - declaration: selbergNu_autocorrelation_eq_l2
-      file: RequestProject/Core/MultiPrime/SelbergCorrelation.lean
-      sorry_count: 0
-      axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
+    # ── §4. Möbius weights and optimality ─────────────────────────────────
 
     - declaration: moebiusWeights_one
       file: RequestProject/Core/MultiPrime/MoebiusWeights.lean
@@ -319,8 +101,9 @@ status:
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies:
-        - statement: "Q(μ_P) = φ(P)/P for Möbius weights"
-          source: "Iwaniec–Kowalski, Analytic Number Theory, eq. (6.63)–(6.74)"
+        - statement: "Q(μ_P) = φ(P)/P for the Möbius weights on sqfDivisors(P)"
+          source: "Iwaniec–Kowalski, Analytic Number Theory, Ch. 6; proved here
+                   by induction on prime factors without Dirichlet series"
 
     - declaration: multiPrimeQuadForm_lower_bound'
       file: RequestProject/Core/MultiPrime/MoebiusWeights.lean
@@ -330,11 +113,13 @@ status:
 
     - declaration: optimalWeight_quadForm_eq_moebius
       file: RequestProject/Core/MultiPrime/MoebiusWeights.lean
-      sorry_count: 1
+      sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies:
-        - statement: "Q(λ_opt) = 1/V(D): Selberg optimal weight identity"
-          source: "Iwaniec–Kowalski, Analytic Number Theory, eq. (6.70)–(6.71); Ford §4 p. 43"
+        - statement: "Q(μ_P) = 1/V(1/·, P, P)"
+          source: "Iwaniec–Kowalski eq. (6.70); Ford Theorem 4.1 p. 44;
+                   JTNB_2006 eq. (8.2). Möbius-weight case only; proved
+                   without the deferred sorry."
 
     - declaration: multiPrimeQuadForm_lower_bound_inv
       file: RequestProject/Core/MultiPrime/MoebiusWeights.lean
@@ -342,16 +127,34 @@ status:
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies: []
 
+    # ── §5. Selberg upper bound and sharp L² bound ────────────────────────
+
     - declaration: selberg_upper_bound_multiPrime
       file: RequestProject/Core/MultiPrime/SelbergUpperBound.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies:
-        - statement: "Selberg upper bound |S| ≤ X/V(D) + remainder"
-          source: "Iwaniec–Kowalski, Theorem 6.4; Ford Theorem 4.1 p. 44"
+        - statement: "|S| ≤ X/V(D) + remainder for the Selberg sieve"
+          source: "Iwaniec–Kowalski, Theorem 6.4; Ford, Theorem 4.1 p. 44"
 
     - declaration: selberg_l2_sharp
       file: RequestProject/Core/MultiPrime/SelbergUpperBound.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      literature_dependencies: []
+
+    # ── §6. Sharp mass–energy tradeoff ────────────────────────────────────
+
+    - declaration: selberg_l2_lower_bound
+      file: RequestProject/Core/MassEnergyTradeoff/SharpBounds.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      literature_dependencies: []
+
+    # ── §7. Coprime-shift correlation ─────────────────────────────────────
+
+    - declaration: coprimePairsQuadForm_le_multiPrimeQuadForm
+      file: RequestProject/Core/MultiPrime/SelbergWeightCorrelation.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies: []
@@ -360,19 +163,99 @@ status:
       file: RequestProject/Core/MultiPrime/SelbergWeightCorrelation.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
-      literature_dependencies: []
+      literature_dependencies:
+        - statement: "Correlation bound for sieve weights via CRT"
+          source: "Green–Tao 2007, Proposition 9.1 (inspiration only;
+                   our result is for unsquared weights at coprime shifts,
+                   not for the squared majorant at all shifts)"
 
-    - declaration: selbergWeight_autocorrelation_eq
-      file: RequestProject/Core/MultiPrime/SelbergWeightCorrelation.lean
+    # ── §8. Additive energy lower bound ───────────────────────────────────
+
+    - declaration: additiveEnergy_lower_bound
+      file: RequestProject/Core/RestrictionLowerBound.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies: []
 
-    - declaration: coprimePairsQuadForm_le_multiPrimeQuadForm
-      file: RequestProject/Core/MultiPrime/SelbergWeightCorrelation.lean
+    - declaration: restriction_lower_bound
+      file: RequestProject/Core/RestrictionLowerBound.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      literature_dependencies:
+        - statement: "Cauchy–Schwarz restriction lower bound (Majorant form)"
+          source: "Mathlib: Finset.inner_mul_le_norm_mul_iff"
+
+    - declaration: sieve_additive_energy_lower
+      file: RequestProject/Core/RestrictionLowerBound.lean
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       literature_dependencies: []
+
+  additional_results:
+
+    - declaration: selberg_unified_connection_moebius
+      file: RequestProject/Core/ConditionalConnection.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        Packages the full proof chain (mass = N/V and ‖ν‖₂² ≥ |S|⁴·V²/N³)
+        for Möbius weights. Fully sorry-free. One-line proof.
+
+    - declaration: selberg_unified_connection
+      file: RequestProject/Core/ConditionalConnection.lean
+      sorry_count: 1
+      axioms: [propext, Classical.choice, Quot.sound, sorry]
+      note: >
+        General g and D. Conditional on optimalWeight_quadForm_eq (sorry).
+        All other steps are proved.
+
+    - declaration: selberg_upper_bound_complete
+      file: RequestProject/Core/MultiPrime/RemainderBound.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        Complete Selberg upper bound with general remainder function r.
+        |{a ∈ [P·m] : gcd(a,P)=1}| ≤ (P·m)/V + moebiusRemainderBound(P,r).
+
+    - declaration: selbergNu_correlation_bound_is_false
+      file: RequestProject/Core/MultiPrime/SelbergCorrelationBoundDisproved.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        Machine-verified disproof of the blueprint C1 correlation bound.
+        Counterexample: P=2, m=2 (N=4), λ₁=λ₂=1, h=0.
+
+    - declaration: sharp_fourier_ratio_lower_bound
+      file: RequestProject/Core/MultiPrime/FourierRatioSharp.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        ∃ ξ ≠ 0, |ν̂(ξ)|² ≥ (N·‖ν‖₂²−mass²)/(N−1). Opposite direction to
+        Green–Tao 2006 Prop. 3.1(iv).
+
+    - declaration: correlation_additive_energy_lower
+      file: RequestProject/Core/CorrelationBound/AdditiveEnergyLower.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        E(ν) ≥ N³·(1−2ε−4δ) for StrongPseudorandomMajorant.
+        Instantiation for multiPrimeMajorant is a separate project.
+
+    - declaration: kinetic_V_stability
+      file: RequestProject/Core/KineticStability/VFunctionStability.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        |V(g,P,D) − V(g',P,D)| controlled by prime-level perturbation.
+        Parallel result; not in the proof chain of selberg_unified_connection.
+
+    - declaration: multiPrimeQuadForm_perturbation
+      file: RequestProject/Core/KineticStability/QuadFormPerturbation.lean
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      note: >
+        |Q(λ)−Q(μ)| ≤ 2C·Σδ_d/lcm(d,e). Engine: prod_perturb from
+        KineticPropagation.lean.
 
 automation:
   methods:
@@ -391,36 +274,40 @@ automation:
         infrastructure lemmas.
       cost:
         wall_time: "3 days"
-        spend_usd: "$20"
+        spend_usd: "$15"
         hardware: "API-only"
       prompting_notes: >
         Mathematical direction, theorem statements, novelty identification,
         and scope decisions were made by the human author. AI was used for
         tactic search and elaboration. All mathematical claims were verified
         by the human author via lake build and #print axioms.
-  spend_usd: "$20"
+  spend_usd: "$15"
   notes: >
     Human–AI collaboration. The human author drove all mathematical decisions.
     AI models assisted with proof search and infrastructure. Final verification
-    done via lake build and Audit.lean (#print axioms). One sorry remains in
-    optimalWeight_quadForm_eq_moebius pending full Möbius inversion argument.
+    done via lake build and Audit.lean (#print axioms). One sorry is present
+    and documented; all 19 Statements.lean theorems typecheck without sorry.
 
 fidelity:
   divergences: >
-    (1) optimalWeight_quadForm_eq_moebius carries one sorry: the identity
-    Q(λ_opt) = 1/V(D) requires a deep Möbius inversion argument on the
-    lattice of squarefree divisors (Iwaniec–Kowalski eq. (6.70)–(6.71))
-    that is deferred to a future milestone. All other 54 declarations are
-    sorry-free.
+    (1) The general optimal-weight identity Q(λ_opt) = 1/V(D) for arbitrary g
+    and D carries one sorry (deferred Möbius inversion). The Möbius-weight
+    case is fully proved. This is a formalization gap only; the mathematics
+    is standard (IK eq. 6.70).
     (2) The correlation-enhanced additive energy lower bound
-    (correlation_additive_energy_lower) uses abstract pseudorandomness
-    hypotheses; it is not instantiated for multiPrimeMajorant in the
-    current scope.
-    (3) No asymptotic results, no density estimates, no big-O or o().
-    (4) selberg_upper_bound_multiPrime uses remainder = 0 as a placeholder;
-    the full remainder term with nontrivial error control is not proved.
-    (5) The Future/ directory contains scaffolding excluded from the axiom
-    audit.
+    (correlation_additive_energy_lower) applies to StrongPseudorandomMajorant,
+    an abstract structure. Instantiation for multiPrimeMajorant requires
+    computing Σ_x ν(x)ν(x+h) explicitly and is a separate project.
+    (3) The blueprint C1 correlation bound for the squared majorant ν at all
+    shifts is false and machine-disproved. The correct result (Theorem C) is
+    for the unsquared weight at coprime shifts only.
+    (4) No asymptotic results, no density estimates, no big-O.
+    (5) The Future/ directory contains scaffolding not part of the proof chain
+    and excluded from the axiom audit.
+    (6) The Weights/ infrastructure (SelbergWeights structure, sieveWeight,
+    quadraticMajorantSum) generalizes the single-prime Step 1 machinery;
+    several Step 1 lemmas (siftedSet_card_le_quadraticSum,
+    weighted_remainder_bound) are reused here without re-statement.
 
 review:
   status: "agent-reviewed, self-assessed"
@@ -429,9 +316,12 @@ review:
     - "Aristotle (AI agent)"
     - "Codex (AI agent)"
   notes: >
-    All 55 declarations verified via #print axioms in RequestProject/Audit.lean.
+    All 19 new theorems verified via #print axioms in RequestProject/Audit.lean.
     Axiom footprint confirmed as [propext, Classical.choice, Quot.sound] for
-    every result. One sorry in optimalWeight_quadForm_eq_moebius (noted above).
+    every sorry-free result. One sorry (optimalWeight_quadForm_eq) is present
+    and documented in the file header and Sorry Status section of the README.
+    All 19 Statements.lean theorem signatures typecheck with zero errors
+    (only declaration uses sorry warnings, intended).
     lake build passes cleanly on leanprover/lean4:v4.28.0 + Mathlib v4.28.0.
     Pending human peer review.
 
@@ -439,324 +329,172 @@ alignment:
   namespace: "RequestProject"
   statements:
 
-    # ── Step 1 carry-overs ────────────────────────────────────────────────────
-
-    - source: "Theorem 1 (mass improvement)"
-      lean: "selbergComparison_massImprovement"
-      module: "RequestProject.Core.SelbergComparison"
-      status: proved
-      note: "Single-prime model; carried over from Step 1."
-
-    - source: "Theorem 1 (L² improvement)"
-      lean: "sieveMajorant_l2_improvement"
-      module: "RequestProject.Core.Weights.FourierConnection"
-      status: proved
-      note: ""
-
-    - source: "Theorem 1 (dual improvement)"
-      lean: "selbergComparison_dual_improvement"
-      module: "RequestProject.Core.Weights.FourierConnection"
-      status: proved
-      note: "Conjunction of mass and L² improvement."
-
-    - source: "Theorem 1 (quadratic form identity ‖ν‖₂²/N = Q(λ))"
-      lean: "sieveMajorant_l2NormSq_eq_selbergForm"
-      module: "RequestProject.Core.Weights.FourierConnection"
-      status: proved
-      note: "Single-prime model."
-
-    - source: "Theorem 2 (abstract restriction lower bound)"
-      lean: "restriction_lower_bound"
-      module: "RequestProject.Core.RestrictionLowerBound"
-      status: proved
-      note: "Cauchy–Schwarz only; no Fourier hypothesis."
-
-    - source: "Theorem 2 (additive energy lower bound)"
-      lean: "sieve_additive_energy_lower"
-      module: "RequestProject.Core.RestrictionLowerBound"
-      status: proved
-      note: ""
-
-    - source: "Theorem 2 (Fourier zero-mode restatement)"
-      lean: "restriction_lower_bound_zero_mode"
-      module: "RequestProject.Core.RestrictionLowerBound"
-      status: proved
-      note: "Restatement via Parseval; not an independent Fourier proof."
-
-    - source: "Selberg upper bound |S(A,P)| ≤ Q_A(λ)"
-      lean: "siftedSet_card_le_quadraticSum"
-      module: "RequestProject.Core.Weights.UpperBound"
-      status: proved
-      note: "General SieveData; arbitrary number of sieving primes."
-
-    - source: "Weighted remainder bound"
-      lean: "weighted_remainder_bound"
-      module: "RequestProject.Core.Weights.UpperBound"
-      status: proved
-      note: ""
-
-    - source: "Theorem 3 (kinetic propagation)"
-      lean: "perturbation_propagates"
-      module: "RequestProject.Core.KineticPropagation"
-      status: proved
-      note: "Pointwise, exact, no big-O."
-
-    - source: "Theorem 3 (Euler product stability)"
-      lean: "eulerProduct_stability"
-      module: "RequestProject.Core.KineticPropagation"
-      status: proved
-      note: ""
-
-    - source: "Theorem 3 (H-functional stability)"
-      lean: "sieveH_stable"
-      module: "RequestProject.Core.KineticPropagation"
-      status: proved
-      note: ""
-
-    - source: "Theorem 2 (Selberg concrete restriction bound)"
-      lean: "selberg_concrete_restriction_bound"
-      module: "RequestProject.Core.Weights.FourierConnection"
-      status: proved
-      note: ""
-
-    - source: "Theorem 2 (Selberg additive energy explicit)"
-      lean: "selberg_additive_energy_explicit"
-      module: "RequestProject.Core.SelbergRestriction"
-      status: proved
-      note: ""
-
-    - source: "Theorem 2 (mass-energy interval)"
-      lean: "selberg_mass_energy_interval"
-      module: "RequestProject.Core.SelbergRestriction"
-      status: proved
-      note: ""
-
-    - source: "Theorem 4 (Nat.Squarefree.lcm)"
-      lean: "Nat.Squarefree.lcm"
-      module: "RequestProject.Core.Weights.QuadFormStability"
-      status: proved
-      note: "Absent from Mathlib v4.28.0; proved here."
-
-    - source: "Theorem 4 (inverse difference bound)"
-      lean: "inv_diff_bound"
-      module: "RequestProject.Core.Weights.QuadFormStability"
-      status: proved
-      note: ""
-
-    - source: "Theorem 4 (quadratic form term difference)"
-      lean: "quadForm_term_diff"
-      module: "RequestProject.Core.Weights.QuadFormStability"
-      status: proved
-      note: ""
-
-    - source: "Theorem 4 (quadratic form term bound)"
-      lean: "quadForm_term_bound"
-      module: "RequestProject.Core.Weights.QuadFormStability"
-      status: proved
-      note: ""
-
-    - source: "Theorem 4 (quadratic form Lipschitz stability)"
-      lean: "quadForm_kinetic_stability"
-      module: "RequestProject.Core.Weights.QuadFormStability"
-      status: proved
-      note: ""
-
-    # ── Multi-prime extension ─────────────────────────────────────────────────
-
-    - source: "Multi-prime setup: majorant dominates indicator"
+    - source: "§1 (Multi-prime setup: domination)"
       lean: "selbergNu_dominates"
       module: "RequestProject.Core.MultiPrime.Setup"
       status: proved
-      note: ""
+      note: "ν(x) ≥ sieveIndicator(x) when λ₁ = 1."
 
-    - source: "Multi-prime setup: joint divisibility count"
+    - source: "§1 (Joint multiple count)"
       lean: "card_joint_multiples_of_lcm"
       module: "RequestProject.Core.MultiPrime.JointCount"
       status: proved
-      note: ""
+      note: "Counting lemma underpinning the central identity."
 
-    - source: "Multi-prime L² identity"
+    - source: "§2 (Central L² identity)"
       lean: "l2NormSq_multiPrime_eq_quadForm"
       module: "RequestProject.Core.MultiPrime.L2Identity"
       status: proved
-      note: "Central identity Σ ν(x) = N·Q(λ) for arbitrary squarefree P."
+      note: "Σ_x ν(x) = (P·m)·Q(λ) for any squarefree P, m ≥ 1, any λ."
 
-    - source: "FourierRatio: mass equals N·Q(λ)"
+    - source: "§3 (Mass = N·Q(λ))"
       lean: "multiPrime_mass_eq_quadForm"
       module: "RequestProject.Core.MultiPrime.FourierRatio"
       status: proved
-      note: ""
+      note: "Packages the central identity in the Majorant structure."
 
-    - source: "FourierRatio: Q(λ) ≥ targetMass/N"
+    - source: "§3 (Q(λ) ≥ targetMass/N)"
       lean: "multiPrime_quadForm_lower_bound"
       module: "RequestProject.Core.MultiPrime.FourierRatio"
       status: proved
-      note: "Multi-prime Selberg upper bound in quadratic form language."
+      note: ""
 
-    - source: "FourierRatio: restriction lower bound mass²·‖ν‖₂² ≥ |S|⁴/N"
+    - source: "§3 (Restriction lower bound)"
       lean: "multiPrime_restriction_lower_bound"
       module: "RequestProject.Core.MultiPrime.FourierRatio"
       status: proved
-      note: ""
+      note: "Cauchy–Schwarz consequence of the central identity."
 
-    - source: "Sharp mass–energy tradeoff ‖ν‖₂² ≥ |S|⁴/(N³·Q²)"
-      lean: "selberg_l2_lower_bound"
-      module: "RequestProject.Core.MassEnergyTradeoff.SharpBounds"
-      status: proved
-      note: "No direct analogue in Iwaniec–Kowalski; novel sandwich bound."
-
-    - source: "Correlation: Σ_h corrSum(h) = mass²"
-      lean: "correlationSum_total_eq_sq"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: ""
-
-    - source: "Correlation: Σ g(h)² ≥ (Σ g(h))²/N"
-      lean: "sum_sq_ge_sq_div"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: ""
-
-    - source: "Correlation: |Σ ν·ν(·+h)/N − 1| ≤ ε implies |corrSum − N| ≤ εN"
-      lean: "correlation_sum_approx_N"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: ""
-
-    - source: "Correlation: mass approximates N"
-      lean: "mass_approx_N"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: ""
-
-    - source: "Additive energy = Σ squared correlation sums"
-      lean: "additiveEnergy_eq_sum_correlationSq"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: ""
-
-    - source: "Correlation-enhanced additive energy lower bound E(ν) ≥ N³(1−2ε−4δ)"
-      lean: "correlation_additive_energy_lower"
-      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
-      status: proved
-      note: "Abstract pseudorandomness hypotheses; not instantiated for multiPrimeMajorant."
-
-    - source: "Quadratic form perturbation |Q(λ)−Q(μ)| ≤ 2C·Σ δ_d/lcm"
-      lean: "multiPrimeQuadForm_perturbation"
-      module: "RequestProject.Core.KineticStability.QuadFormPerturbation"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: sieve mass = N·Q(λ)"
-      lean: "sieveMass_eq_quadForm"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: real L² norm = complex L² norm"
-      lean: "real_l2NormSq_eq"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: Parseval for real functions"
-      lean: "parseval_real"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: zero-mode norm² = mass²"
-      lean: "fourier_zero_norm_sq"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: Σ_{ξ≠0} |ν̂(ξ)|² = N·‖ν‖₂² − mass²"
-      lean: "nonzero_fourier_sum_eq"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier: pigeonhole Σ f ≥ T implies some f(x) ≥ T/|S|"
-      lean: "exists_ge_of_sum_ge"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: ""
-
-    - source: "Sharp Fourier ratio lower bound: ∃ ξ≠0 with |ν̂(ξ)|² large"
-      lean: "sharp_fourier_ratio_lower_bound"
-      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
-      status: proved
-      note: "Novel; no direct analogue in classical sieve literature."
-
-    - source: "Correlation bound nonnegativity"
-      lean: "correlationBound_nonneg"
-      module: "RequestProject.Core.MultiPrime.SelbergCorrelation"
-      status: proved
-      note: ""
-
-    - source: "Selberg ν autocorrelation equals L²"
-      lean: "selbergNu_autocorrelation_eq_l2"
-      module: "RequestProject.Core.MultiPrime.SelbergCorrelation"
-      status: proved
-      note: ""
-
-    - source: "Möbius weights: λ₁ = 1"
+    - source: "§4 (λ₁ = 1 for Möbius weights)"
       lean: "moebiusWeights_one"
       module: "RequestProject.Core.MultiPrime.MoebiusWeights"
       status: proved
       note: ""
 
-    - source: "Möbius weights: Q(μ_P) = φ(P)/P"
+    - source: "§4 (Q(μ_P) = φ(P)/P)"
       lean: "moebius_quadForm_eq"
       module: "RequestProject.Core.MultiPrime.MoebiusWeights"
       status: proved
-      note: ""
+      note: "Proved by induction on prime factors; no Dirichlet series."
 
-    - source: "Möbius weights: Q(λ) ≥ φ(P)/P for any λ with λ₁=1"
+    - source: "§4 (Q(λ) ≥ φ(P)/P for any λ with λ₁ = 1)"
       lean: "multiPrimeQuadForm_lower_bound'"
       module: "RequestProject.Core.MultiPrime.MoebiusWeights"
       status: proved
-      note: ""
+      note: "Möbius weights minimize Q(λ) among all λ with λ₁ = 1."
 
-    - source: "Optimal weight identity Q(μ_P) = 1/V(1/·,P,P)"
+    - source: "§4 (Q(μ_P) = 1/V(1/·,P,P))"
       lean: "optimalWeight_quadForm_eq_moebius"
       module: "RequestProject.Core.MultiPrime.MoebiusWeights"
-      status: sorry
-      note: "Requires full Möbius inversion on lattice of squarefree divisors. Deferred."
+      status: proved
+      note: "Möbius-weight specialization of IK eq. (6.70). Sorry-free."
 
-    - source: "Möbius weights: Q(λ) ≥ 1/V for any λ with λ₁=1"
+    - source: "§4 (Q(λ) ≥ 1/V(1/·,P,P) for any λ with λ₁ = 1)"
       lean: "multiPrimeQuadForm_lower_bound_inv"
       module: "RequestProject.Core.MultiPrime.MoebiusWeights"
       status: proved
       note: ""
 
-    - source: "Selberg upper bound |S| ≤ N/V + remainder (multi-prime)"
+    - source: "§5 (Selberg upper bound)"
       lean: "selberg_upper_bound_multiPrime"
       module: "RequestProject.Core.MultiPrime.SelbergUpperBound"
       status: proved
-      note: "Remainder term uses placeholder remainder = 0."
+      note: "|S| ≤ N/V + moebiusRemainderBound at Möbius weights."
 
-    - source: "Sharp L² bound ‖ν‖₂² ≥ |S|⁴·V²/N³ at Möbius weights"
+    - source: "§5 (Sharp L² lower bound at Möbius weights)"
       lean: "selberg_l2_sharp"
       module: "RequestProject.Core.MultiPrime.SelbergUpperBound"
       status: proved
-      note: ""
+      note: "‖ν‖₂² ≥ |S|⁴·V²/N³ at Möbius weights."
 
-    - source: "Coprime-shift correlation Σ w(x)w(x+h) ≤ N·Q(λ)"
-      lean: "selbergWeight_correlation_coprime_bound"
-      module: "RequestProject.Core.MultiPrime.SelbergWeightCorrelation"
+    - source: "§6 (General sharp L² lower bound)"
+      lean: "selberg_l2_lower_bound"
+      module: "RequestProject.Core.MassEnergyTradeoff.SharpBounds"
       status: proved
-      note: ""
+      note: "‖ν‖₂² ≥ |S|⁴/(N³·Q(λ)²) for any λ with Q(λ) > 0."
 
-    - source: "Selberg weight autocorrelation identity"
-      lean: "selbergWeight_autocorrelation_eq"
-      module: "RequestProject.Core.MultiPrime.SelbergWeightCorrelation"
-      status: proved
-      note: ""
-
-    - source: "Coprime-pairs form ≤ multi-prime quadratic form"
+    - source: "§7 (coprimePairsQuadForm ≤ multiPrimeQuadForm)"
       lean: "coprimePairsQuadForm_le_multiPrimeQuadForm"
       module: "RequestProject.Core.MultiPrime.SelbergWeightCorrelation"
       status: proved
-      note: ""
+      note: "For nonneg λ."
+
+    - source: "§7 (Coprime-shift correlation bound)"
+      lean: "selbergWeight_correlation_coprime_bound"
+      module: "RequestProject.Core.MultiPrime.SelbergWeightCorrelation"
+      status: proved
+      note: >
+        Σ_x w(x)·w(x+h) ≤ (P·m)·Q(λ) for gcd(h,P)=1.
+        For unsquared weights only; the blueprint version for squared ν
+        is machine-disproved (selbergNu_correlation_bound_is_false).
+
+    - source: "§8 (Additive energy lower bound)"
+      lean: "additiveEnergy_lower_bound"
+      module: "RequestProject.Core.RestrictionLowerBound"
+      status: proved
+      note: "E(f) ≥ (‖f‖₂²)²/N for nonneg f."
+
+    - source: "§8 (Restriction lower bound, Majorant form)"
+      lean: "restriction_lower_bound"
+      module: "RequestProject.Core.RestrictionLowerBound"
+      status: proved
+      note: "mass²·l2NormSq ≥ targetMass⁴/N."
+
+    - source: "§8 (Sieve additive energy lower bound)"
+      lean: "sieve_additive_energy_lower"
+      module: "RequestProject.Core.RestrictionLowerBound"
+      status: proved
+      note: "E(ν) ≥ targetMass⁴/N³ for any Majorant."
+
+    - source: "Connecting theorem (general g, D — conditional)"
+      lean: "selberg_unified_connection"
+      module: "RequestProject.Core.ConditionalConnection"
+      status: conditional
+      note: >
+        Conditional on optimalWeight_quadForm_eq (sorry). Derives both
+        chain links from multiPrime_mass_eq_quadForm and
+        selberg_l2_lower_bound by substituting Q(λ_opt) = 1/V(D).
+
+    - source: "Connecting theorem (Möbius weights — unconditional)"
+      lean: "selberg_unified_connection_moebius"
+      module: "RequestProject.Core.ConditionalConnection"
+      status: proved
+      note: "Fully sorry-free. One-line proof."
+
+    - source: "Complete upper bound with remainder"
+      lean: "selberg_upper_bound_complete"
+      module: "RequestProject.Core.MultiPrime.RemainderBound"
+      status: proved
+      note: "General remainder function r; imports Weights.UpperBound."
+
+    - source: "Machine-verified disproof of blueprint C1"
+      lean: "selbergNu_correlation_bound_is_false"
+      module: "RequestProject.Core.MultiPrime.SelbergCorrelationBoundDisproved"
+      status: proved
+      note: "Proof of negation. Counterexample: P=2, m=2, N=4, h=0."
+
+    - source: "Sharp Fourier ratio lower bound"
+      lean: "sharp_fourier_ratio_lower_bound"
+      module: "RequestProject.Core.MultiPrime.FourierRatioSharp"
+      status: proved
+      note: "∃ ξ ≠ 0, |ν̂(ξ)|² ≥ (N·‖ν‖₂²−mass²)/(N−1)."
+
+    - source: "Correlation-enhanced additive energy lower bound"
+      lean: "correlation_additive_energy_lower"
+      module: "RequestProject.Core.CorrelationBound.AdditiveEnergyLower"
+      status: proved
+      note: >
+        E(ν) ≥ N³·(1−2ε−4δ) for StrongPseudorandomMajorant.
+        Instantiation for multiPrimeMajorant is a separate project.
+
+    - source: "V-function kinetic stability"
+      lean: "kinetic_V_stability"
+      module: "RequestProject.Core.KineticStability.VFunctionStability"
+      status: proved
+      note: "Parallel result; not in chain of selberg_unified_connection."
+
+    - source: "Quadratic form perturbation bound"
+      lean: "multiPrimeQuadForm_perturbation"
+      module: "RequestProject.Core.KineticStability.QuadFormPerturbation"
+      status: proved
+      note: "|Q(λ)−Q(μ)| ≤ 2C·Σδ_d/lcm(d,e)."
