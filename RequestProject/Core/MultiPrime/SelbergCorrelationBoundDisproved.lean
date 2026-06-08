@@ -1,8 +1,8 @@
 /-
 # Disproof of `selbergNu_correlation_bound`
 ## Statement (what we wanted to prove)
-The blueprint (sieve-blueprint-v3-combined.txt, Phase C1) proposed the following
-correlation bound for the multi-prime Selberg majorant ν, modeled on
+An earlier attempt proposed the following correlation bound for the 
+multi-prime Selberg majorant ν, modeled on
 Green–Tao 2007 (Proposition 9.1):
   **Claimed theorem**: For all squarefree P > 0, all m > 0, all sieve weights λ
   with λ₁ = 1, and for every shift h : Fin(P·m),
