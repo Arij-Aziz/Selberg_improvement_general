@@ -265,7 +265,7 @@ specialization to range(P·m) with zero remainder:
 
 (`Core/MultiPrime/SelbergCorrelationBoundDisproved.lean`)
 
-An earlier blueprint proposed the following correlation bound for the
+An earlier attempt proposed the following correlation bound for the
 squared majorant ν (modeled on Green–Tao 2007 Proposition 9.1):
 
     |Σ_x ν(x)·ν(x+h) / N  −  Q(λ)|  ≤  correlationBound(P, m, λ, h)
@@ -374,8 +374,13 @@ selberg_upper_bound_complete            → [propext, Classical.choice, Quot.sou
 ── Machine-verified disproof ───────────────────────────────────────────────
 selbergNu_correlation_bound_is_false    → [propext, Classical.choice, Quot.sound]
 
-── Conditional (uses sorry) ────────────────────────────────────────────────
-selberg_unified_connection              → uses optimalWeight_quadForm_eq (sorry)
+-- conditional on optimalWeight_quadForm_eq — sorryAx is EXPECTED
+#print axioms selberg_mass_eq_general
+#print axioms selberg_l2_lower_bound_general
+#print axioms selberg_upper_bound_general
+#print axioms selberg_unified_connection_general
+-- Expected: [propext, Classical.choice, Quot.sound, sorryAx]
+
 ```
 
 Classical logic only.
@@ -469,5 +474,4 @@ RequestProject/
 
 Future/                                     ← Scaffolding; not part of proof chain
 formalization.yml                           ← Machine-readable project metadata
-```
 ```
