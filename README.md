@@ -228,15 +228,49 @@ Two versions are provided:
 
 ## Selberg Upper Bound Infrastructure
 
-(`Core/MultiPrime/SelbergUpperBound.lean`)
+(`Core/MultiPrime/SelbergUpperBound.lean`, `Core/MultiPrime/RemainderBound.lean`)
 
-The classical Selberg upper bound is machine-verified for the multi-prime
-case at Möbius weights:
+The complete Selberg upper bound is machine-verified in two complementary forms.
+
+`selberg_upper_bound_complete` (`RemainderBound.lean`) is the general form: for
+squarefree P, m ≥ 1, and a remainder function r satisfying
+|{a ∈ range(P·m) : lcm(d,e) ∣ a}| = P·m/lcm(d,e) + r(lcm(d,e)),
+
+    |{a ∈ [P·m] : gcd(a,P) = 1}|  ≤  (P·m) / V  +  Σ_{d,e} |μ(d)| |μ(e)| |r(lcm(d,e))|
+
+The proof assembles three lemmas: `siftedCount_le_quadraticMajorantSum`
+(sifted count ≤ Σ w(n)²), `quadraticMajorantSum_eq_mainTerm_plus_errorTerm`
+(expand Σ w(n)² into N·Q(λ) plus a double remainder sum), and
+`double_error_le_moebiusRemainderBound` (bound the double remainder sum
+by |μ|-weighted remainder). The `finRange_Ad_lcm_card` lemma establishes
+the exact multiple count used in the expansion.
+
+`selberg_upper_bound_multiPrime` (`SelbergUpperBound.lean`) is the specialization
+to the model range(P·m) with zero remainder:
 
     |S(A, P)|  ≤  N / V(1/·, P, P)  +  moebiusRemainderBound
 
-This is `selberg_upper_bound_multiPrime`. It follows from
-`mass_ge_targetMass` and `selberg_mass_eq`.
+It follows from `mass_ge_targetMass` and `selberg_mass_eq`.
+
+## A Machine-Verified Disproof
+
+(`Core/MultiPrime/SelbergCorrelationBoundDisproved.lean`)
+
+An earlier attempt proposed the following correlation bound for the squared
+majorant ν (modeled on Green–Tao 2007 Proposition 9.1):
+
+    |Σ_x ν(x)·ν(x+h) / N  −  Q(λ)|  ≤  correlationBound(P, m, λ, h)
+
+for **all** squarefree P, all m ≥ 1, all λ with λ₁ = 1, and all shifts h.
+
+This statement is false. `selbergNu_correlation_bound_is_false` gives a
+machine-verified proof of its negation. The counterexample is
+P = 2, m = 2 (N = 4), λ₁ = λ₂ = 1, h = 0: at this small scale the
+residues are not equidistributed and the bound fails.
+
+The correct result — proved in `SelbergWeightCorrelation.lean` — is the
+exact identity for the **unsquared** weight w(x) at **coprime** shifts h,
+not for the squared majorant ν at all shifts.
 
 ## Scope of Novelty
 
@@ -256,8 +290,6 @@ We are not aware of the following appearing in the literature in this form:
    upper bound; this goes in the opposite direction.
 6. A stability theorem for the V-function under prime-level perturbation,
    to the authors' knowledge.
-
-We make no claim to have surveyed all literature exhaustively.
 
 ## Axiom Audit
 
@@ -287,6 +319,7 @@ selberg_unified_connection_moebius      → [propext, Classical.choice, Quot.sou
 
 ── Theorem C: Coprime-shift correlation ────────────────────────────────────
 coprimePairsQuadForm_le_multiPrimeQuadForm → [propext, Classical.choice, Quot.sound]
+selbergWeight_correlation_coprime       → [propext, Classical.choice, Quot.sound]
 selbergWeight_correlation_coprime_bound → [propext, Classical.choice, Quot.sound]
 selbergWeight_autocorrelation_eq        → [propext, Classical.choice, Quot.sound]
 
@@ -298,6 +331,11 @@ kinetic_V_stability                     → [propext, Classical.choice, Quot.sou
 ── Theorem E: Quadratic form perturbation ──────────────────────────────────
 multiPrimeQuadForm_perturbation         → [propext, Classical.choice, Quot.sound]
 
+── Upper bound infrastructure ──────────────────────────────────────────────
+finRange_Ad_lcm_card                    → [propext, Classical.choice, Quot.sound]
+quadraticMajorantSum_eq_mainTerm_plus_errorTerm → [propext, Classical.choice, Quot.sound]
+selberg_upper_bound_complete            → [propext, Classical.choice, Quot.sound]
+
 ── Extension: Sharp Fourier ratio ──────────────────────────────────────────
 parseval_real                           → [propext, Classical.choice, Quot.sound]
 sharp_fourier_ratio_lower_bound         → [propext, Classical.choice, Quot.sound]
@@ -305,6 +343,9 @@ sharp_fourier_ratio_lower_bound         → [propext, Classical.choice, Quot.sou
 ── Extension: Additive energy lower bound ──────────────────────────────────
 additiveEnergy_eq_sum_correlationSq     → [propext, Classical.choice, Quot.sound]
 correlation_additive_energy_lower       → [propext, Classical.choice, Quot.sound]
+
+── Machine-verified disproof ───────────────────────────────────────────────
+selbergNu_correlation_bound_is_false    → [propext, Classical.choice, Quot.sound]
 
 ── Conditional (uses sorry) ────────────────────────────────────────────────
 selberg_unified_connection              → uses optimalWeight_quadForm_eq (sorry)
@@ -359,8 +400,10 @@ RequestProject/
     │   │                                      optimalWeight_quadForm_eq has sorry
     │   ├── MoebiusWeights.lean             ← Q(μ_P)=φ(P)/P, minimality, V-function identity
     │   ├── SelbergCorrelation.lean         ← Correlation bound definitions and autocorrelation
+    │   ├── SelbergCorrelationBoundDisproved.lean ← Machine-verified disproof of blueprint C1
     │   ├── SelbergWeightCorrelation.lean   ← Coprime-shift correlation identity (CRT proof)
-    │   └── SelbergUpperBound.lean          ← Selberg upper bound + selberg_l2_sharp
+    │   ├── RemainderBound.lean             ← Complete Selberg upper bound with remainder
+    │   └── SelbergUpperBound.lean          ← selberg_upper_bound_multiPrime + selberg_l2_sharp
     ├── MassEnergyTradeoff/
     │   ├── SharpBounds.lean                ← ‖ν‖₂² ≥ |S|⁴/(N³·Q²)
     │   └── MassEnergySandwich.lean         ← mass=N/V sandwich (Möbius weights)
@@ -372,4 +415,5 @@ RequestProject/
 
 Future/                                     ← Scaffolding; not part of proof chain
 formalization.yml                           ← Machine-readable project metadata
+```
 ```
