@@ -7,6 +7,8 @@ Mathlib. The Möbius-weight case is fully sorry-free; axiom footprint
 verified as `[propext, Classical.choice, Quot.sound]` for all theorems
 outside the one deferred step (see `RequestProject/Audit.lean` and
 **Sorry Status** below).
+Challenge.lean (root) is a statement-only mirror for the comparator check; 
+its sorry proofs are intentional placeholders and are not part of the verified proof chain.
 
 ## What This Project Is
 
@@ -406,10 +408,8 @@ Requires Lean toolchain `leanprover/lean4:v4.28.0` (see `lean-toolchain`).
 
 ```
 RequestProject/
-├── Audit.lean                              ← #print axioms for all 19 new theorems
+├── Audit.lean                              ← #print axioms for all new theorems
 ├── AssumptionsRegistry.lean                ← Manually maintained proof-status log
-├── Statements.lean                         ← Auditable statement file (Mathlib-only,
-│                                              no project imports; 19 theorems with sorry)
 ├── Main.lean                               ← Top-level imports
 └── Core/
     ├── Basic.lean                          ← SieveData, squarefreeDivisors, UpperBoundSieve
@@ -474,4 +474,6 @@ RequestProject/
 
 Future/                                     ← Scaffolding; not part of proof chain
 formalization.yml                           ← Machine-readable project metadata
+Challenge.lean                        ← Pure-Mathlib auditable statement file (sorry proofs) (has inline definitions)
+Solution.lean                         ← File that only imports main.lean file
 ```
