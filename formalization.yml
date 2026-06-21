@@ -27,7 +27,7 @@ status:
     extensions.
     Does NOT cover the full Selberg sieve with arbitrary level D and general g
     (one sorry deferred), asymptotic results, or optimality in a broader
-    function space. The Future/ directory is scaffolding only.
+    function space. The Future/ directory is scaffolding only
   sorry_count: 1
   sorry_in_definitions: 0
   sorry_locations:
