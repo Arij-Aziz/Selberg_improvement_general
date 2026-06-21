@@ -458,7 +458,11 @@ RequestProject/
     │   │                                      coprimePairsQuadForm_le_multiPrimeQuadForm
     │   ├── RemainderBound.lean             ← selberg_upper_bound_complete (general remainder)
     │   └── SelbergUpperBound.lean          ← selberg_upper_bound_multiPrime;
-    │                                          selberg_l2_sharp
+    │   |                                       selberg_l2_sharp
+    |    └──     GeneralWeightConnection.lean ← selberg_mass_eq_general;
+    |                                            selberg_l2_lower_bound_general;
+    |                                            selberg_upper_bound_general;
+    |                                            selberg_unified_connection_general
     ├── MassEnergyTradeoff/
     │   ├── SharpBounds.lean                ← selberg_l2_lower_bound:
     │   │                                      ‖ν‖₂² ≥ |S|⁴/(N³·Q²)
