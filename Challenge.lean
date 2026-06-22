@@ -29,16 +29,22 @@
 
   ── CONTENTS ─────────────────────────────────────────────────────────────────
   §0.  Inline definitions (Mathlib-only reproductions)
-  §1.  Multi-prime setup                                     (2 theorems)
-  §2.  Central Identity: L² identity                        (1 theorem)
-  §3.  FourierRatio                                         (3 theorems)
-  §4.  Möbius weights and optimality                        (5 theorems)
-  §5.  Selberg upper bound and sharp L² bound               (2 theorems)
-  §6.  Sharp mass–energy tradeoff                           (1 theorem)
-  §7.  Coprime-shift correlation                            (2 theorems)
-  §8.  Additive energy lower bound                          (3 theorems)
+  §1.  Multi-prime setup                                     
+  §2.  Central Identity: L² identity                       
+  §3.  FourierRatio                                         
+  §4.  Möbius weights and optimality                        
+  §5.  Selberg upper bound and sharp L² bound               
+  §6.  Sharp mass–energy tradeoff                           
+  §7.  Coprime-shift correlation                            
+  §8.  Additive energy lower bound
+  §9.  Correlation-enhanced additive energy
+  §10.  Sharp Fourier ratio lower bound
+  §11.  Correlation definitions
+  §12.  Selberg weight correlation
+  §13.  Remainder bound
+  §14.  General weight connection (conditional on optimalWeight_quadForm_eq)
 
-  Total: 19 theorems (new, matching Audit.lean new-theorem list exactly).
+  Total: the theorems (new, matching Audit.lean new-theorem list exactly).
   Axiom footprint for each: [propext, Classical.choice, Quot.sound].
   ─────────────────────────────────────────────────────────────────────────────
 -/
